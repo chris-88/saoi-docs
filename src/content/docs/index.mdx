@@ -1,0 +1,49 @@
+---
+title: Saoi and Baz
+description: What Saoi and Baz are, and where the project stands.
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Saoi (Irish for a sage, said "see") is the product. Baz is the assistant inside it: a conversational
+layer over simulated retail banking journeys for a fictional Demo Bank. The customer says what they
+are trying to do. Baz works out the wider need, the customer chooses products, and facts are
+collected once and reused across concurrent applications. The case persists across channels,
+sessions, a partner and time.
+
+## State of the project
+
+This is a proof of concept, not a bank. Everything runs on synthetic Demo Bank data. Nothing real is
+opened and no money moves. The code is open source under AGPL-3.0-only, and these docs are CC BY 4.0.
+
+## Where things live
+
+<CardGrid>
+  <LinkCard title="App" href="https://app.saoi.ie/" description="Talk to Baz." />
+  <LinkCard
+    title="Showcase"
+    href="https://showcase.saoi.ie/"
+    description="How it works, and the article."
+  />
+  <LinkCard
+    title="API"
+    href="https://api.saoi.ie/api/openapi.json"
+    description="The OpenAPI document."
+  />
+  <LinkCard
+    title="MCP server"
+    href="https://mcp.saoi.ie/mcp"
+    description="Use Baz from an agent."
+  />
+</CardGrid>
+
+Some of these hosts are still being moved to `saoi.ie`. If one does not answer yet, that is why.
+
+## Read next
+
+- [Run it locally](/getting-started/run-locally/)
+- [Architecture overview](/architecture/overview/)
+- [Call the API](/api/overview/)
+- [Use Baz from an agent](/mcp/using-baz-from-an-agent/)
+- [Open banking roadmap](/open-banking/roadmap/)
+- [Contribute](/contributing/)
