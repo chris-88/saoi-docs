@@ -22,8 +22,7 @@ export default defineConfig({
           {
             base: 'api/reference',
             label: 'API reference',
-            // TODO: switch to https://api.saoi.ie/api/openapi.json once that host is live.
-            schema: 'https://api.chrisquinn.ie/baz/api/openapi.json',
+            schema: 'https://api.saoi.ie/api/openapi.json',
           },
         ]),
       ],
