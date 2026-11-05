@@ -1,6 +1,6 @@
 ---
 title: API overview
-description: How to call the Baz API.
+description: How to call the Saoirse API.
 ---
 
 The API is `baz-api`, a Hono service. It publishes its own contract as an OpenAPI 3.1 document:

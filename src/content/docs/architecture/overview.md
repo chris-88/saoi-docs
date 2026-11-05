@@ -4,7 +4,7 @@ description: How Saoi is put together, and why.
 ---
 
 Saoi's business logic lives in API services. The same routines are reachable through an MCP server.
-The Baz app is a front end with no business logic of its own, and the admin console is a separate
+The Saoirse app is a front end with no business logic of its own, and the admin console is a separate
 application. The open banking flows are mapped so the services are shaped for them.
 
 :::note
@@ -40,7 +40,7 @@ flowchart LR
 | Host               | What it is                                                                   |
 | ------------------ | ---------------------------------------------------------------------------- |
 | `saoi.ie`          | The landing page                                                             |
-| `app.saoi.ie`      | The Baz chat, the public app (static, GitHub Pages)                          |
+| `app.saoi.ie`      | The Saoirse chat, the public app (static, GitHub Pages)                      |
 | `api.saoi.ie`      | The services: `/api/*` is `baz-api`, everything else is the Supabase gateway |
 | `mcp.saoi.ie`      | The MCP server                                                               |
 | `docs.saoi.ie`     | These docs                                                                   |
@@ -88,7 +88,7 @@ discovery lives at `/.well-known/` and a path prefix breaks that.
 
 Phase one is authless, with public tools over synthetic data, so that Claude connectors can be
 tested. OAuth 2.1 with audience binding comes before any tool sees consented bank data. See
-[Use Baz from an agent](/mcp/using-baz-from-an-agent/).
+[Use Saoirse from an agent](/mcp/using-baz-from-an-agent/).
 
 ## The open banking context
 

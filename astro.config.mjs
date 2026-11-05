@@ -12,7 +12,8 @@ export default defineConfig({
     mermaid({ autoTheme: true }),
     starlight({
       title: 'Saoi docs',
-      description: 'Documentation for Saoi and Baz, a proof of concept in conversational banking.',
+      description:
+        'Documentation for Saoi and Saoirse, a proof of concept in conversational banking.',
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/chris-88/saoi-docs' }],
       editLink: { baseUrl: 'https://github.com/chris-88/saoi-docs/edit/main/' },
       customCss: ['./src/styles/theme.css'],

@@ -1,18 +1,18 @@
 ---
 title: Open banking roadmap
-description: The PSD2 account-information flows Baz is being built to support, and what is being built.
+description: The PSD2 account-information flows Saoirse is being built to support, and what is being built.
 ---
 
-Baz is being shaped to read account data from Irish banks as a directly registered account
+Saoirse is being shaped to read account data from Irish banks as a directly registered account
 information service provider (AISP) with the Central Bank of Ireland, with no aggregator in between.
 
 :::note
-This is a plan, not a feature. Today Baz uses a synthetic Demo Bank connector only. Anything marked
+This is a plan, not a feature. Today Saoirse uses a synthetic Demo Bank connector only. Anything marked
 **unconfirmed** could not be checked against a primary source.
 :::
 
 The headline finding: AIB, Bank of Ireland and PTSB do not use the Berlin Group standard. They use
-the UK Open Banking Read/Write model (redirect only). So Baz needs at least two connector families,
+the UK Open Banking Read/Write model (redirect only). So Saoirse needs at least two connector families,
 and the connector interface below is bank-neutral.
 
 ## Roles and vocabulary
@@ -20,7 +20,7 @@ and the connector interface below is bank-neutral.
 | Term                | Meaning                                                                                                                                                                   |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ASPSP               | Account Servicing Payment Service Provider: the bank holding the account.                                                                                                 |
-| TPP                 | Third Party Provider: AISP, PISP or CBPII. Baz is an AISP (read only).                                                                                                    |
+| TPP                 | Third Party Provider: AISP, PISP or CBPII. Saoirse is an AISP (read only).                                                                                                |
 | AISP                | Account Information Service Provider: reads accounts, balances and transactions with the customer's consent.                                                              |
 | PSU                 | Payment Service User: the end customer.                                                                                                                                   |
 | Consent             | The PSU's authorisation for an AISP to read named accounts and data types, with an expiry and a frequency limit.                                                          |
@@ -37,7 +37,7 @@ and the connector interface below is bank-neutral.
 ```mermaid
 sequenceDiagram
   participant P as PSU
-  participant B as Baz
+  participant B as Saoirse
   participant A as ASPSP API
   participant S as ASPSP SCA page/app
   P->>B: Connect bank X
@@ -57,9 +57,9 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
   participant P as PSU
-  participant B as Baz
+  participant B as Saoirse
   participant A as ASPSP API
-  P->>B: Open Baz, refresh
+  P->>B: Open Saoirse, refresh
   B->>A: GET /accounts/{id}/transactions?dateFrom&bookingStatus=both (PSU-IP-Address)
   A-->>B: page 1 + _links.next
   B->>A: GET next
@@ -71,7 +71,7 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-  participant J as Baz scheduler
+  participant J as Saoirse scheduler
   participant A as ASPSP API
   J->>J: Check consent valid, count today's calls < frequencyPerDay
   J->>A: GET balances/transactions (no PSU-IP-Address)
@@ -89,7 +89,7 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-  participant J as Baz scheduler
+  participant J as Saoirse scheduler
   participant P as PSU
   participant A as ASPSP
   J->>J: Day 150: consent nearing expiry
@@ -102,33 +102,33 @@ sequenceDiagram
   J->>A: DELETE old consent
 ```
 
-Banks may expire consents earlier than Baz requests; always read the real status.
+Banks may expire consents earlier than Saoirse requests; always read the real status.
 
 ### 3.5 Revocation by the PSU
 
 ```mermaid
 sequenceDiagram
   participant P as PSU
-  participant B as Baz
+  participant B as Saoirse
   participant A as ASPSP
-  alt Revoke in Baz
+  alt Revoke in Saoirse
     P->>B: Disconnect bank
     B->>A: DELETE /consents/{id}
     B->>B: Delete stored data per policy
   else Revoke in bank dashboard
-    P->>A: Remove Baz in bank's third-party access dashboard
+    P->>A: Remove Saoirse in bank's third-party access dashboard
     A-->>B: Next call returns consent revoked/invalid
     B->>B: Mark revoked by PSU, stop jobs, purge tokens
   end
 ```
 
-The bank-side dashboard exists because of the revised Payment Services Regulation proposal (PSR). Its final text and date of application are **unconfirmed** here. Baz should assume revocation can happen silently at any time and detect it on the next call.
+The bank-side dashboard exists because of the revised Payment Services Regulation proposal (PSR). Its final text and date of application are **unconfirmed** here. Saoirse should assume revocation can happen silently at any time and detect it on the next call.
 
 ### 3.6 Errors and fallback
 
 ```mermaid
 sequenceDiagram
-  participant B as Baz
+  participant B as Saoirse
   participant A as Dedicated API
   B->>A: Request
   alt 5xx / timeout
@@ -146,7 +146,7 @@ sequenceDiagram
 
 Fallback screen scraping is not a design goal: Irish banks hold exemptions or expose none (**unconfirmed** per bank). Report persistent unavailability to the bank and the Central Bank under the RTS obligation to TPPs (Art. 33(3), spec of RTS, not re-read).
 
-## What Baz must build
+## What Saoirse must build
 
 ### Connector interface
 
@@ -204,8 +204,8 @@ stateDiagram-v2
   Valid --> Expiring: day 150
   Expiring --> Valid: renewed (new consent, old deleted)
   Valid --> Expired: day 180 / bank expiry
-  Valid --> RevokedByPSU: Baz or bank dashboard
-  Valid --> TerminatedByTPP: Baz DELETE
+  Valid --> RevokedByPSU: Saoirse or bank dashboard
+  Valid --> TerminatedByTPP: Saoirse DELETE
   Expired --> [*]
   RevokedByPSU --> [*]
   TerminatedByTPP --> [*]
@@ -242,7 +242,7 @@ payload data:
 
 - per outbound call: timestamp, bank, consent id (hashed PSU id), `X-Request-ID`, endpoint, status,
   latency
-- consent lifecycle events, with the actor (PSU, bank, Baz)
+- consent lifecycle events, with the actor (PSU, bank, Saoirse)
 - SCA outcomes
 - certificate use and renewals
 - ASPSP unavailability and error rates (RTS Art. 33 reporting)

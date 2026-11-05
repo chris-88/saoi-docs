@@ -1,6 +1,6 @@
 ---
 title: Run it locally
-description: Clone the Baz repository, point it at a Supabase project and start the app.
+description: Clone the Saoirse repository, point it at a Supabase project and start the app.
 ---
 
 The product repository is
@@ -18,7 +18,7 @@ default branch may differ.
   [Supabase CLI](https://supabase.com/docs/guides/cli), pinned at 2.108.0 in CI), hosted or
   self-hosted.
 - [Deno](https://deno.com) 2.x, only for `npm run typecheck:functions`.
-- An Anthropic API key, only to run Baz against a real model. Without one, use the fixture provider
+- An Anthropic API key, only to run Saoirse against a real model. Without one, use the fixture provider
   (below).
 
 ## Setup

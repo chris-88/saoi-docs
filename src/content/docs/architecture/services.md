@@ -3,7 +3,7 @@ title: Services
 description: The layout of baz-api and how to add a route.
 ---
 
-`baz-api` is the business-logic service for Baz: Node 24, TypeScript, [Hono](https://hono.dev) with
+`baz-api` is the business-logic service for Saoirse: Node 24, TypeScript, [Hono](https://hono.dev) with
 `@hono/zod-openapi`. It lives in `services/api/` of the product repository. It serves the case read
 API, so the app stops reading tables from the browser, and it carries ports of the `session`,
 `partner` and `upload` Edge Functions. The Edge Functions stay until cutover. The app picks one or
