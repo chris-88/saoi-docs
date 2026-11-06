@@ -12,6 +12,13 @@ export default defineConfig({
     mermaid({ autoTheme: true }),
     starlight({
       title: 'Saoi docs',
+      favicon: '/favicon.svg',
+      logo: {
+        light: './src/assets/saoi-name-light.svg',
+        dark: './src/assets/saoi-name-dark.svg',
+        alt: 'Saoi docs',
+        replacesTitle: true,
+      },
       description:
         'Documentation for Saoi and Saoirse, a proof of concept in conversational banking.',
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/chris-88/saoi-docs' }],
