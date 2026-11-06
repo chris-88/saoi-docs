@@ -21,7 +21,7 @@ flowchart LR
     admin[admin.saoi.ie<br/>admin console]
   end
   subgraph backend [Backend]
-    api[api.saoi.ie<br/>baz-api, Node 24, Hono<br/>/api/*]
+    api[api.saoi.ie<br/>saoi-api, Node 24, Hono<br/>/api/*]
     sb[Supabase<br/>Postgres, Auth, Storage, Realtime]
     mcp[mcp.saoi.ie<br/>MCP server]
   end
@@ -37,17 +37,17 @@ flowchart LR
   api --> banks
 ```
 
-| Host               | What it is                                                                   |
-| ------------------ | ---------------------------------------------------------------------------- |
-| `saoi.ie`          | The landing page                                                             |
-| `app.saoi.ie`      | The Saoirse chat, the public app (static, GitHub Pages)                      |
-| `api.saoi.ie`      | The services: `/api/*` is `baz-api`, everything else is the Supabase gateway |
-| `mcp.saoi.ie`      | The MCP server                                                               |
-| `docs.saoi.ie`     | These docs                                                                   |
-| `showcase.saoi.ie` | The showcase, how it works, and the article                                  |
-| `admin.saoi.ie`    | The admin console, once the app is split                                     |
+| Host               | What it is                                                                    |
+| ------------------ | ----------------------------------------------------------------------------- |
+| `saoi.ie`          | The landing page                                                              |
+| `app.saoi.ie`      | The Saoirse chat, the public app (static, GitHub Pages)                       |
+| `api.saoi.ie`      | The services: `/api/*` is `saoi-api`, everything else is the Supabase gateway |
+| `mcp.saoi.ie`      | The MCP server                                                                |
+| `docs.saoi.ie`     | These docs                                                                    |
+| `showcase.saoi.ie` | The showcase, how it works, and the article                                   |
+| `admin.saoi.ie`    | The admin console, once the app is split                                      |
 
-The contract between them is the OpenAPI document that `baz-api` publishes. The app, the admin
+The contract between them is the OpenAPI document that `saoi-api` publishes. The app, the admin
 console and the MCP server generate their clients from it, so a breaking API change shows up as a
 type error in the consumer at build time.
 
@@ -58,7 +58,7 @@ type error in the consumer at build time.
 There were three options. Plain Node means rebuilding auth, migrations tooling, storage, realtime
 and backups. Staying on Edge Functions keeps the logic in Deno on a hosted project. The hybrid takes
 the free parts of Supabase (Postgres, Auth, RLS as defence, Storage, Realtime) and puts the logic
-in one long-running Node 24 container, `baz-api`, next to it.
+in one long-running Node 24 container, `saoi-api`, next to it.
 
 The account-information workload settles it. Consent renewal, metered unattended polling, mutual
 TLS with a qualified certificate, request signing and long bank calls do not fit Edge Functions.
@@ -70,13 +70,13 @@ document directly, and Hono is also one of the MCP SDK's adapters, so both serve
 ### 2. Auth: Supabase Auth is the identity provider, the API verifies JWTs
 
 Front ends sign in with Supabase Auth (anonymous, email code, and email and password for admins) and
-send the JWT to `baz-api`. The API verifies it, applies its own access checks, and writes with the
+send the JWT to `saoi-api`. The API verifies it, applies its own access checks, and writes with the
 service role. The browser never reads a table directly. RLS stays as a second fence, not the first.
 
 ### 3. Contracts: OpenAPI, no shared package
 
 Coupling through a published npm package keeps the coupling and adds a release step. Instead
-`baz-api` serves `openapi.json`, and the consumers run `openapi-typescript` to generate their
+`saoi-api` serves `openapi.json`, and the consumers run `openapi-typescript` to generate their
 clients. The card schemas become response schemas in that document.
 
 ### 4. MCP: the official SDK, stateless, authless first
@@ -88,11 +88,11 @@ discovery lives at `/.well-known/` and a path prefix breaks that.
 
 Phase one is authless, with public tools over synthetic data, so that Claude connectors can be
 tested. OAuth 2.1 with audience binding comes before any tool sees consented bank data. See
-[Use Saoirse from an agent](/mcp/using-baz-from-an-agent/).
+[Use Saoirse from an agent](/mcp/using-saoirse-from-an-agent/).
 
 ## The open banking context
 
-Inside `baz-api` sits a bounded context, `open-banking`, built to a connector interface taken from
+Inside `saoi-api` sits a bounded context, `open-banking`, built to a connector interface taken from
 the PSD2 research. The finding that shapes it: AIB, Bank of Ireland and PTSB use the UK Open Banking
 profile with redirect-only strong customer authentication, N26 is Berlin Group, and bunq has its own
 API. So the interface is bank-neutral, and there are families of connectors rather than one standard.

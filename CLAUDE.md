@@ -2,7 +2,7 @@
 
 ## What this is
 
-`saoi-docs` is the documentation site for Saoi (the product) and Baz (the assistant), at
+`saoi-docs` is the documentation site for Saoi (the product) and Saoirse (the assistant), at
 `https://docs.saoi.ie`. Astro with Starlight, static output, deployed to GitHub Pages on push to
 `main`. Content is Markdown in `src/content/docs/`.
 
@@ -26,6 +26,6 @@
 
 ## Notes
 
-- The OpenAPI schema URL in `astro.config.mjs` is `https://api.chrisquinn.ie/baz/api/openapi.json` until `api.saoi.ie` is live. Switch it (there is a TODO).
-- Sources: product repo `chris-88/baz-conversational-banking` (branch `next`), `baz-mcp`, and vault notes under `baz/`.
+- The OpenAPI schema URL in `astro.config.mjs` is `https://api.saoi.ie/api/openapi.json`.
+- Sources: product repo `chris-88/saoi` (branch `main`), `saoi-mcp`, and the product notes in the vault.
 - Rolling deploy: commit, push to `main`, watch the Pages deploy.

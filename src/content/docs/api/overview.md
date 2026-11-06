@@ -3,7 +3,7 @@ title: API overview
 description: How to call the Saoirse API.
 ---
 
-The API is `baz-api`, a Hono service. It publishes its own contract as an OpenAPI 3.1 document:
+The API is `saoi-api`, a Hono service. It publishes its own contract as an OpenAPI 3.1 document:
 
 - Live document: [api.saoi.ie/api/openapi.json](https://api.saoi.ie/api/openapi.json)
 - Rendered in these docs: [API reference](/api/reference/)
@@ -78,7 +78,7 @@ Conversation turns (the model's replies) also stream over SSE. The turn contract
 discriminated union of `text_delta`, `retract`, `card`, `status`, `done` and `error`.
 
 :::caution[To be written]
-The turn endpoint on `baz-api` is not documented here yet. The turn logic is still being ported
+The turn endpoint on `saoi-api` is not documented here yet. The turn logic is still being ported
 from the Edge Function.
 :::
 

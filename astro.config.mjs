@@ -48,7 +48,7 @@ export default defineConfig({
           label: 'API',
           items: [{ slug: 'api/overview' }, ...openAPISidebarGroups],
         },
-        { label: 'MCP', items: [{ slug: 'mcp/using-baz-from-an-agent' }] },
+        { label: 'MCP', items: [{ slug: 'mcp/using-saoirse-from-an-agent' }] },
         { label: 'Open banking', items: [{ slug: 'open-banking/roadmap' }] },
         { slug: 'showcase' },
         { slug: 'contributing' },

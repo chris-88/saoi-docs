@@ -7,7 +7,7 @@ description: How to report a problem, send a change, and what the licences are.
 
 Open an issue on the repository the problem is in:
 
-- Product and services: [chris-88/baz-conversational-banking](https://github.com/chris-88/baz-conversational-banking/issues)
+- Product and services: [chris-88/saoi](https://github.com/chris-88/saoi/issues)
 - These docs: [chris-88/saoi-docs](https://github.com/chris-88/saoi-docs/issues)
 
 Say what you did, what you expected and what happened. For the API, include the `requestId` from the

@@ -46,7 +46,7 @@ logged. OAuth comes later, before any tool can see consented bank data.
 
 ## Run your own
 
-The server is in the `baz-mcp` repository, AGPL-3.0-only.
+The server is in the `saoi-mcp` repository, AGPL-3.0-only.
 
 :::caution[To be written]
 Configuration for running the server yourself, against your own Saoirse stack.

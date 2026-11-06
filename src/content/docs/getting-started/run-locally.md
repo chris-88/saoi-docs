@@ -4,7 +4,7 @@ description: Clone the Saoirse repository, point it at a Supabase project and st
 ---
 
 The product repository is
-[chris-88/baz-conversational-banking](https://github.com/chris-88/baz-conversational-banking).
+[chris-88/saoi](https://github.com/chris-88/saoi).
 
 :::note
 The commands below come from the README on the `next` branch, where the work is happening. The
@@ -24,8 +24,8 @@ default branch may differ.
 ## Setup
 
 ```sh
-git clone https://github.com/chris-88/baz-conversational-banking.git
-cd baz-conversational-banking
+git clone https://github.com/chris-88/saoi.git
+cd saoi
 nvm use
 npm ci
 cp .env.example .env
@@ -39,17 +39,17 @@ npm run dev
 
 Names only. Copy the `.example` files and fill in values. Never commit them.
 
-| File                                   | Variables                                                                                                                                                                                    |
-| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.env` (browser build)                 | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_SENTRY_DSN`, `VITE_BASE_PATH`, `VITE_BAZ_API_URL`, `VITE_VAPID_PUBLIC_KEY`                                                              |
-| `supabase/.env.local` (Edge Functions) | `ANTHROPIC_API_KEY`, `BAZ_MODEL`, `GATE_MODEL`, `APP_BASE_URL`, `AUDIENCE_MAX_CASES`, `PRESENTER_KEY`, `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_D`, `VAPID_SUBJECT`, `LLM_PROVIDER`, `LLM_FIXTURE` |
-| `services/api/.env`                    | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_JWT_SECRET`, `CORS_ORIGINS`, `PORT`                                                                                                   |
+| File                                   | Variables                                                                                                                                                                                     |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.env` (browser build)                 | `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_SENTRY_DSN`, `VITE_BASE_PATH`, `VITE_SAOI_API_URL`, `VITE_VAPID_PUBLIC_KEY`                                                              |
+| `supabase/.env.local` (Edge Functions) | `ANTHROPIC_API_KEY`, `SAOI_MODEL`, `GATE_MODEL`, `APP_BASE_URL`, `AUDIENCE_MAX_CASES`, `PRESENTER_KEY`, `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_D`, `VAPID_SUBJECT`, `LLM_PROVIDER`, `LLM_FIXTURE` |
+| `services/api/.env`                    | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_JWT_SECRET`, `CORS_ORIGINS`, `PORT`                                                                                                    |
 
 The browser gets the anon key only. The service role key and the Anthropic key never reach a
 browser.
 
 To run with no model key and no bill, set `LLM_PROVIDER=fixture` and point `LLM_FIXTURE` at a script
-in `supabase/functions/baz-turn/fixtures/`.
+in `supabase/functions/saoi-turn/fixtures/`.
 
 ## Commands
 
@@ -78,15 +78,15 @@ in `supabase/functions/baz-turn/fixtures/`.
 src/                  the SPA (React, Vite, Tailwind, shadcn/ui)
 supabase/migrations/  Postgres schema and RLS
 supabase/functions/   Edge Functions (Deno) and _shared (domain, contracts, llm, tenants)
-services/api/         baz-api, a Node service
+services/api/         saoi-api, a Node service
 scripts/  e2e/  evals/  tests/
 docs/                 long-form documentation
 CLAUDE.md             operational summary for contributors and coding agents
 ```
 
-## Run baz-api
+## Run saoi-api
 
-`baz-api` is a Hono service (Node 24, its own `package.json` and lockfile) that is taking over the
+`saoi-api` is a Hono service (Node 24, its own `package.json` and lockfile) that is taking over the
 case read API from the browser and, over time, the Edge Functions. See
 [Services](/architecture/services/).
 
@@ -100,7 +100,7 @@ npm run test:integration   # needs `supabase start` at the repo root
 npm run build && npm start
 ```
 
-`baz-api` environment:
+`saoi-api` environment:
 
 | Variable                    | Required | Meaning                                                                                                |
 | --------------------------- | -------- | ------------------------------------------------------------------------------------------------------ |
@@ -125,7 +125,7 @@ The service fails to start on a missing or malformed variable and names it, neve
 The image bundles code from outside the package, so the build context is the repository root:
 
 ```sh
-docker build -f services/api/Dockerfile -t baz-api --build-arg APP_VERSION=$(git rev-parse --short HEAD) .
+docker build -f services/api/Dockerfile -t saoi-api --build-arg APP_VERSION=$(git rev-parse --short HEAD) .
 ```
 
 Node 24 alpine, multi-stage, runs as `node`, with a `HEALTHCHECK` on `/health`. Behind a proxy,

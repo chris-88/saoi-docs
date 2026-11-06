@@ -1,9 +1,9 @@
 # saoi-docs
 
-Documentation for Saoi and Baz, built with [Astro Starlight](https://starlight.astro.build). Live at
+Documentation for Saoi and Saoirse, built with [Astro Starlight](https://starlight.astro.build). Live at
 <https://docs.saoi.ie>.
 
-Saoi (Irish for a sage, said "see") is the product. Baz is the assistant. It is a proof of concept on
+Saoi (Irish for a sage, said "see") is the product. Saoirse is the assistant. It is a proof of concept on
 synthetic Demo Bank data.
 
 ## Develop
