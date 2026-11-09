@@ -33,8 +33,10 @@ OpenAPI document.
 Every product carries its source (the provider's own site, or the Competition and Consumer Protection
 Commission's comparison tables, with its attribution), when it was checked and last changed, every
 field the source does not give (never treated as zero), and eligibility to check with the provider.
-Products from other EU banks offered through the Raisin platform are included and flagged, with the
-home country's deposit guarantee.
+Only providers that operate in Ireland are compared: Irish banks and credit unions, Ireland State
+Savings, and EU banks with an Irish branch or service, such as bunq, Revolut, Avant Money and MoCo,
+each with the deposit guarantee scheme that covers it. Banks reached only through a deposit
+platform, such as Raisin, are not compared.
 
 Each result comes back as structured data and as a short text rendering, so hosts that do not read
 structured output still show the figures, flags, unknowns and attribution.
