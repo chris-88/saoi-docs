@@ -86,9 +86,9 @@ server uses the SDK rather than hand-rolled protocol code. It serves both the ne
 the legacy `initialize` path while clients catch up, and sits on its own host because OAuth
 discovery lives at `/.well-known/` and a path prefix breaks that.
 
-Phase one is authless, with public tools over synthetic data, so that Claude connectors can be
+Phase one is authless, with public comparison tools over published market data, so that Claude connectors can be
 tested. OAuth 2.1 with audience binding comes before any tool sees consented bank data. See
-[Use Saoirse from an agent](/mcp/using-saoirse-from-an-agent/).
+[Use Saoi from your AI](/mcp/using-saoi-from-your-ai/).
 
 ## The open banking context
 
