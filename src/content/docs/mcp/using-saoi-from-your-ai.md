@@ -21,6 +21,11 @@ a filter they chose, and the result says so. The only thing stored is a comparis
 it is held for 24 hours behind a single-use link so they can open it in the Saoi app, then deleted
 unless opened.
 
+Each run of the home calculator also keeps one anonymous record: the day, an income band, the months
+to the keys (banded) and whether the date is met. If the customer gave them, it adds the county, a rent
+band, the kind of home and whether they are a first-time buyer. It holds no figures and no names, and
+nothing that identifies the customer.
+
 It is a thin adapter over the Saoi API's public comparison routes. The arithmetic, the ranking and the
 market data live in the API. Each tool's input schema and description are generated from the API's
 OpenAPI document.
@@ -49,6 +54,38 @@ option that fits, sortable by cost over the first five years, keys date or month
 button to save the comparison. Hosts without cards get the same figures and the missing inputs as plain
 questions.
 
+Two inputs are optional. `county` is one of the 26 counties, or Dublin City, Dún Laoghaire-Rathdown,
+Fingal or South Dublin; it sets the price ceilings of the First Home Scheme and the Local Authority Home Loan. `monthlyRentEur` changes
+no product figure. It is shown against the monthly repayment of each option: "Rent €X a month against a
+€Y repayment".
+
+### Routes to a home
+
+The home calculator and `saoi_first_home` return `routes`: every route to a home, each as a fact with
+a date or a reason. They come in this order: the customer's own kind of property first, then the routes
+that could apply, then those that need one more detail, then those that do not apply, with the reason.
+
+- Second-hand.
+- A new build with Help to Buy.
+- The First Home Scheme: shared equity on a new build, up to 30% of the price, or 20% with Help to
+  Buy. The price ceilings depend on the local authority.
+- The Local Authority Home Loan: an alternative mortgage from the council. The income ceiling is
+  €80,000 for one applicant and €85,000 for two. It needs insufficient offers from two lenders.
+- Local authority affordable purchase: a below-market price, with the council keeping a share. Saoi
+  reads it from newstarterhomes.ie, where it is called "Starter Home Purchase".
+- The Vacant Property Refurbishment Grant: up to €50,000, and €20,000 more if the property is
+  derelict. The property must have been vacant for two years or more. It is paid against receipts
+  after the works, so it never counts towards the deposit. Its figures are marked unconfirmed: they
+  were read from council pages, not gov.ie.
+
+Each route carries its conditions, the page it was read from and the day it was read (2026-11-10). The
+AI relays three lines, then "More routes: N". The customer chooses. Saoi never calls one route the
+best.
+
+Help to Buy is conditional in the headline. When the kind of home is a new build and tax paid was not
+given, the headline keys date is without Help to Buy, and the new-build route line says "if your tax
+paid covers €35,000". When tax paid is given, Help to Buy counts as before.
+
 Every mortgage result carries the three warnings:
 
 - Warning: if you do not keep up your repayments you may lose your home.
@@ -66,8 +103,8 @@ Every mortgage result carries the three warnings:
 | `saoi_savings_projection` | Month by month, net of DIRT, within monthly caps and tiers; when a target is reached           |
 | `saoi_mortgage`           | Affordability under the Central Bank limits, or a switch: saving, cashback, break-even         |
 | `saoi_debt`               | What debts cost, the payoff order, overpaying against saving, refinance rates                  |
-| `saoi_first_home`         | Help to Buy, the Central Bank lending limits with it, green rates; every rule with its source  |
-| `saoi_home_calculator`    | The home calculator card: limits, deposit and date as inputs move; the questions still to ask  |
+| `saoi_first_home`         | Every route to a home with its date or reason, the Central Bank limits, green rates, sources   |
+| `saoi_home_calculator`    | The home calculator card: limits, deposit, date and routes; optional county and monthly rent   |
 | `saoi_build_plan`         | Compare the options for chosen goals: a worked combination with runners-up, every home option  |
 | `saoi_save_plan`          | A fresh 24-hour link, for a plan that came back without one                                    |
 
