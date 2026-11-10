@@ -55,7 +55,7 @@ button to save the comparison. Hosts without cards get the same figures and the 
 questions.
 
 Two inputs are optional. `county` is one of the 26 counties, or Dublin City, Dún Laoghaire-Rathdown,
-Fingal or South Dublin; it sets the price ceilings of the First Home Scheme. `monthlyRentEur` changes
+Fingal or South Dublin; it sets the price ceilings of the First Home Scheme and the Local Authority Home Loan. `monthlyRentEur` changes
 no product figure. It is shown against the monthly repayment of each option: "Rent €X a month against a
 €Y repayment".
 
