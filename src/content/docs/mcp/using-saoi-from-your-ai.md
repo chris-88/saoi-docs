@@ -1,6 +1,6 @@
 ---
 title: Using Saoi from your AI
-description: The Saoi MCP server, its entry tool and comparison tools, two resources and one prompt, and how to add it to Claude.
+description: The Saoi MCP server, its entry tool, the home calculator and comparison tools, two resources and one prompt, and how to add it to Claude.
 ---
 
 The Saoi MCP server compares Irish savings, deposit, mortgage, loan, credit card and current account
@@ -9,10 +9,17 @@ the facts and the arithmetic: interest after DIRT, repayments, total cost, the m
 It is at `https://mcp.saoi.ie/mcp`.
 
 :::note
-Information, not advice. Every result is ranked by a stated objective the customer can change, and
-says what it is ranked by. The only thing stored is a plan: each one is held for 24 hours behind a
-single-use link so the customer can open it in the Saoi app, then deleted unless opened.
+Saoi compares products and does the arithmetic on the figures you give. It is information, not advice
+or a recommendation, and it does not say which product is right for you. Saoi is not regulated by the
+Central Bank of Ireland, so Central Bank consumer protection rules and compensation schemes do not cover
+it. Saoi earns nothing from any provider. Rates change; the provider's own terms are what count.
 :::
+
+Saoi shows every option that fits the customer's own filters, sorted by a metric the customer picks,
+and never picks one for them. A preference the customer gives, such as staying with their own bank, is
+a filter they chose, and the result says so. The only thing stored is a comparison the customer saves:
+it is held for 24 hours behind a single-use link so they can open it in the Saoi app, then deleted
+unless opened.
 
 It is a thin adapter over the Saoi API's public comparison routes. The arithmetic, the ranking and the
 market data live in the API. Each tool's input schema and description are generated from the API's
@@ -24,9 +31,29 @@ Add the connector and talk about your money. As soon as the conversation turns t
 Ireland (savings in a current account, a house deposit, a loan or card, a mortgage, Help to Buy,
 "where should I put my savings", "am I paying too much"), the host calls `saoi_money_check` with
 whatever you have said. One call returns what Saoi finds, a plan when there is money to place, the
-two or three questions that would sharpen it, and a link to save the plan to the Saoi app. Every
-result starts with a short "Present to the customer" block: the money found a year, one net figure
-per option (savings less what is still owed), and the link. The other tools answer follow-ups.
+two or three questions that would sharpen it, and a link to save the comparison to the Saoi app.
+Every result starts with a short "Present to the customer" block: the money found a year, one net
+figure per option (savings less what is still owed), and the link. The other tools answer follow-ups.
+
+## Buying a home
+
+When the customer raises buying a home, the host calls `saoi_home_calculator` with whatever they have
+said. In hosts that show MCP Apps cards (claude.ai, Claude Desktop and mobile), it opens a calculator:
+sliders, each with a typed box, for the deposit saved, monthly saving, gross income (and a second
+income for a joint mortgage), the price in mind, existing repayments and the date; and the customer's
+filters: their bank and whether to see only its options, fixed or variable, first-time buyer, new
+build or second-hand (Help to Buy), a green home, and whether they are open to switching current
+account. The figures move as the sliders do: what the Central Bank limits allow, the deposit and the
+cash needed at the keys, and the month that is saved. "Show my options" lists every eligible lender
+option that fits, sortable by cost over the first five years, keys date or monthly repayment, with a
+button to save the comparison. Hosts without cards get the same figures and the missing inputs as plain
+questions.
+
+Every mortgage result carries the three warnings:
+
+- Warning: if you do not keep up your repayments you may lose your home.
+- Warning: the cost of your monthly repayments may increase.
+- Warning: if you do not meet the repayments on your loan, your account will go into arrears.
 
 ## Tools
 
@@ -40,7 +67,8 @@ per option (savings less what is still owed), and the link. The other tools answ
 | `saoi_mortgage`           | Affordability under the Central Bank limits, or a switch: saving, cashback, break-even         |
 | `saoi_debt`               | What debts cost, the payoff order, overpaying against saving, refinance rates                  |
 | `saoi_first_home`         | Help to Buy, the Central Bank lending limits with it, green rates; every rule with its source  |
-| `saoi_build_plan`         | The fastest combination for chosen goals, with a link that holds it for 24 hours               |
+| `saoi_home_calculator`    | The home calculator card: limits, deposit and date as inputs move; the questions still to ask  |
+| `saoi_build_plan`         | Compare the options for chosen goals: a worked combination with runners-up, every home option  |
 | `saoi_save_plan`          | A fresh 24-hour link, for a plan that came back without one                                    |
 
 Every product carries its source (the provider's own site, or the Competition and Consumer Protection
@@ -57,7 +85,8 @@ structured output still show the figures, flags, unknowns and attribution.
 ## Resources and prompt
 
 - `saoi://about/ranking`: how Saoi ranks, and how every figure is worked out.
-- `saoi://about/earnings`: how Saoi earns. Referral fees, disclosed, never used in ranking.
+- `saoi://about/earnings`: how Saoi earns. It is free and earns nothing from any provider: no
+  commission, referral fee or payment for leads.
 - `money-check-up`: a guided check-up. Optional: the entry tool does the same work without it.
 
 ## Add it to Claude
