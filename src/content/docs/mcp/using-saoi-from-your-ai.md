@@ -1,6 +1,6 @@
 ---
 title: Using Saoi from your AI
-description: The Saoi MCP server, its entry tool, the home calculator and comparison tools, two resources and one prompt, and how to add it to Claude.
+description: The Saoi MCP server, its entry tool, the home calculator and comparison tools, two resources and two prompts, and how to add it to Claude and ChatGPT.
 ---
 
 The Saoi MCP server compares Irish savings, deposit, mortgage, loan, credit card and current account
@@ -43,7 +43,13 @@ figure per option (savings less what is still owed), and the link. The other too
 ## Buying a home
 
 When the customer raises buying a home, the host calls `saoi_home_calculator` with whatever they have
-said. In hosts that show MCP Apps cards (claude.ai, Claude Desktop and mobile), it opens a calculator:
+said. There is a named way in on each host: `/saoi` in Claude (the prompt below) and `@Saoi` in
+ChatGPT; mentioning a home in any words is enough without either. Before any figure is shown, Saoi
+asks for the four core figures it needs: the funds saved, the monthly saving, the income (both incomes
+when buying together) and a price or a date. Until they are in, the reply is one or two plain
+questions, each with what its answer moves, and nothing else. A customer who gives all four in one
+message sees the card in the first reply. In hosts that show MCP Apps cards (claude.ai, Claude Desktop
+and mobile), it opens a calculator:
 sliders, each with a typed box, for the deposit saved, monthly saving, gross income (and a second
 income for a joint mortgage), the price in mind, existing repayments and the date; and the customer's
 filters: their bank and whether to see only its options, fixed or variable, first-time buyer, new
@@ -51,8 +57,9 @@ build or second-hand (Help to Buy), a green home, and whether they are open to s
 account. The figures move as the sliders do: what the Central Bank limits allow, the deposit and the
 cash needed at the keys, and the month that is saved. "Show my options" lists every eligible lender
 option that fits, sortable by cost over the first five years, keys date or monthly repayment, with a
-button to save the comparison. Hosts without cards get the same figures and the missing inputs as plain
-questions.
+button to save the comparison. The card is the end of the conversation in the host: everything behind
+its tiles and supports is in the Saoi app, and a follow-up about it is answered by its button. Hosts
+without cards get the same figures as text, behind the same four questions.
 
 Two inputs are optional. `county` is one of the 26 counties, or Dublin City, Dún Laoghaire-Rathdown,
 Fingal or South Dublin; it sets the price ceilings of the First Home Scheme and the Local Authority Home Loan. `monthlyRentEur` changes
@@ -124,13 +131,16 @@ structured output still show the figures, flags, unknowns and attribution.
 - `saoi://about/ranking`: how Saoi ranks, and how every figure is worked out.
 - `saoi://about/earnings`: how Saoi earns. It is free and earns nothing from any provider: no
   commission, referral fee or payment for leads.
+- `saoi`: buying a home, shown as `/saoi` in Claude. It starts the home conversation: the four core
+  figures a question or two at a time, then the card. Optional: mentioning a home does the same.
 - `money-check-up`: a guided check-up. Optional: the entry tool does the same work without it.
 
 ## Add it to Claude
 
 In claude.ai (web, desktop or mobile): Settings, Connectors, Add custom connector. Name `Saoi`, URL
 `https://mcp.saoi.ie/mcp`, no authentication. Then enable it in a chat from the tools menu and talk about your
-money; no prompt is needed.
+money; no prompt is needed. For a home, `/saoi` starts it. In ChatGPT, add the same URL as a custom
+connector and start a message with `@Saoi`.
 
 In Claude Code:
 
